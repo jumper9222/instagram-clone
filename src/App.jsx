@@ -1,14 +1,18 @@
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import IconButton from "./components/IconButtons";
 import ProfileHeader from "./components/ProfileHeader";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { HIGHLIGHTS_DATA, PROFILE_DATA } from "./data";
 import UserPosts from "./components/UserPosts";
 import ReelHighlights from "./components/ReelHighlights";
+import AddPostModal from "./components/AddPostModal";
 
 export const ProfileContext = createContext(null);
 
 export default function App() {
+  const [showModal, setShowModal] = useState(false);
+  const closeModal = () => setShowModal(false);
+  const openModal = () => setShowModal(true);
 
   return (
     <ProfileContext.Provider value={PROFILE_DATA}>
@@ -25,7 +29,7 @@ export default function App() {
           <IconButton className="bi bi-film" />
           <IconButton className="bi bi-chat" />
           <IconButton className="bi bi-heart" />
-          <IconButton className="bi bi-plus-square" />
+          <IconButton className="bi bi-plus-square" onClick={openModal} />
           <Button variant='light' style={{ marginBottom: "7px" }} >
             <Image src='https://sig1.co/logo-1' height="28px" roundedCircle />
           </Button>
@@ -36,6 +40,7 @@ export default function App() {
             <ProfileHeader />
             <ReelHighlights highlights={HIGHLIGHTS_DATA} />
             <UserPosts />
+            <AddPostModal show={showModal} handleClose={closeModal} />
           </Container>
         </Col>
       </Row>
